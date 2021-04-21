@@ -5,15 +5,20 @@
 С помощью цикла while вывести все простые числа в промежутке от 0 до 100.
 */
 let str1 = "";
-for (let num = 2; num <= 100; num++) {
-    for (let j = 2; j < num; j++) {
+let num = 2;
+while (num <= 100) {
+let j = 2;
+let flag = 0;
+    while (j < num) {
         if (num % j === 0) {
-            break;
-        } else {
-            str1 += (num + " ");
-            break;
+            flag++;
         }
+        j++;
     }
+        if (flag<2) {
+            str1 += (num + " ");
+        }
+    num++;
 }
 console.log(str1);
 
