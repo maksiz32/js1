@@ -9,7 +9,7 @@ let num = 2;
 while (num <= 100) {
 let j = 2;
 let flag = 0;
-    while (j < num) {
+    while (j <= num) {
         if (num % j === 0) {
             flag++;
         }
