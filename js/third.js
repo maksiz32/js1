@@ -28,8 +28,8 @@ console.log(norm());
 console.timeEnd('Me');
 //ПЕРЕРАБОТАНО
 function norm() {
-let str1 = [];
-let num = 3;
+let str1 = [2, 3];
+let num = 4;
 while (num <= 100) {
 let j = 2;
 let flag = 0;
