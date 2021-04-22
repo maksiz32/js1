@@ -45,6 +45,7 @@ if (a2>=0 && b2>=0) {
 /*
 Присвоить переменной а значение в промежутке [0..15]. С помощью оператора switch организовать вывод чисел от a до 15.
 */
+//Вариант А
 let swit = getRand(0, 15);
 let output = "";
 switch (swit) {
@@ -82,7 +83,16 @@ switch (swit) {
     output += '15';
 }
 alert(output);
-
+//Вариант Б
+function fifteen(a, str="") {
+    switch(true) {
+        case (a<=15):
+            str += a + " " + fifteen(a+1);
+        default:
+            return str;
+    }
+}
+alert('fifteen: '+fifteen(6));
 //#5
 /*
 Реализовать четыре основные арифметические операции в виде функций с двумя параметрами. Обязательно использовать оператор return.
