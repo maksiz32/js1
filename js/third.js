@@ -4,18 +4,18 @@
 /*
 С помощью цикла while вывести все простые числа в промежутке от 0 до 100.
 */
-let str1 = "";
-let num = 2;
+let str1 = "2 ";
+let num = 3;
 while (num <= 100) {
 let j = 2;
 let flag = 0;
-    while (j <= num) {
+    while (j <= 7 && j < num) {
         if (num % j === 0) {
             flag++;
         }
         j++;
     }
-        if (flag<2) {
+        if ((j <= 7 && flag === 1) || (!flag)) {
             str1 += (num + " ");
         }
     num++;
