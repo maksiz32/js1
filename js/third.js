@@ -4,12 +4,13 @@
 /*
 С помощью цикла while вывести все простые числа в промежутке от 0 до 100.
 */
+function norm() {
 let str1 = "2 ";
 let num = 3;
 while (num <= 100) {
 let j = 2;
 let flag = 0;
-    while (j <= 7 && j < num) {
+    while ((j <= 7 && j < num) || (j % 2 !== 0)) {
         if (num % j === 0) {
             flag++;
         }
@@ -20,8 +21,36 @@ let flag = 0;
         }
     num++;
 }
-console.log(str1);
-
+return str1;
+}
+console.time('Me');
+console.log(norm());
+console.timeEnd('Me');
+//ПЕРЕРАБОТАНО
+function norm() {
+let str1 = [];
+let num = 3;
+while (num <= 100) {
+let j = 2;
+let flag = 0;
+    while (j < num) {
+        //Надо в начале условия отсеивать четные - лучше переделать условие на конструкцию с &&
+        if ((num % 2 === 0) || (num % j === 0)) {
+            flag++;
+        }
+        j++;
+    }
+        if (!flag) {
+            // str1 += (num + " ");
+            str1.push(num);
+        }
+    num++;
+}
+return str1;
+}
+console.time('Me');
+console.log(norm());
+console.timeEnd('Me');
 /*
 //#2
 С этого урока начинаем работать с функционалом интернет-магазина. Предположим, есть сущность корзины. Нужно реализовать функционал подсчета стоимости корзины в зависимости от находящихся в ней товаров. 
