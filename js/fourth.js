@@ -5,18 +5,19 @@
     let outObj = {};
     number = parseInt(number);
     number = (number > 0) ? number : -1 * number;
-    const str = number + '';
+    let str = number + '';
     const count = str.length;
     if (count > 3) {
         console.log(`Ваше число ${number} - больше 999\r\n`);
     } else {
-        outObj.units = str[2];
+        str = str.split('').reverse().join('');
+        outObj.units = str[0];
         outObj.dozens = str[1];
-        outObj.handreds = str[0];
+        outObj.handreds = str[2];
         
         console.log(outObj);
     }
-})(951);
+})(51);
 /*
 #2. Продолжить работу с интернет-магазином:
 В прошлом домашнем задании вы реализовали корзину на базе массивов. Какими объектами можно заменить их элементы?
@@ -33,7 +34,10 @@ a = new Product ('Mars', 200);
 b = new Product ('Snikers', 400);
 c = new Product ('Bounty', 800);
 
-let basket = [a,b,c];
+let basket = [];
+basket.push(a);
+basket.push(b);
+basket.push(c);
 const sum = basket.reduce((a,x) => a += parseInt(x.price), 0);
 console.log(sum);
 /*
