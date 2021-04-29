@@ -1,0 +1,98 @@
+@mixin numberContent {
+    margin: 20px;
+    font-size: large;
+    font-weight: 600;
+}
+.main {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+.blackarea {
+    background-color: #000;
+    color: #fff;
+}
+.first::before {
+    content: '#1';
+    @include numberContent;
+}
+.second::before {
+    content: '#2, #3';
+    @include numberContent;
+}
+.tablebox {
+    margin: 0 auto;
+    text-align: center;
+    text-align: -webkit-center;
+}
+
+.mytable {
+    border-collapse: collapse;
+}
+td, th {
+    font-size: 1.4em;
+    font-weight: 600;
+}
+.tblCell {
+    border: 1px solid gray;
+    width: 47px;
+    height: 47px;
+    box-sizing: border-box;
+    font-size: 1.8em;
+    text-align: center;
+    box-sizing: border-box;
+
+    &:hover {
+        cursor: pointer;
+        font-size: 2em;
+        box-sizing: border-box;
+        z-index: 1;
+    }
+}
+.basket {
+    max-width: 200px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 40px;
+    margin: 50px;
+    background-color: lavender;
+    margin: 0 auto;
+    
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+
+    &-items {
+        margin: 10px;
+        border: 1px solid gray;
+        padding: 10px;
+        max-width: 150px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+
+        &__btn {
+            display: block;
+            margin: 10px auto;
+            padding: 5px 15px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            background-color: aquamarine;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(205, 247, 238);
+            }
+
+            &:active {
+                background-color: #fff;
+                font-weight: 600;
+                box-shadow: 0 0 5px 5px #aad5f8;
+            }
+        }
+    }
+}

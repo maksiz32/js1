@@ -27,7 +27,7 @@ window.onload = init;
     };
     const arrChes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     const box = document.getElementById('tableBox');
-    let str = '<table class="mytable" id="myTable">';
+    str = '<table class="mytable" id="myTable">';
     for (i = 0; i < 9; i++) {
         str += `<tr>`;
         for (j = 0; j < 9; j++) {        
@@ -67,7 +67,6 @@ const a = new Product (1234, 'Mars', 200, 3);
 const b = new Product (1235, 'Snikers', 400, 4);
 const c = new Product (1236, 'Bounty', 800, 5);
 const Products = [a,b,c];
-const basket = [];
 
 function getProdByInv(num) {
     for (let item of Products) {
@@ -77,42 +76,48 @@ function getProdByInv(num) {
     }
     return null;
 }
-function pushInBasket(id) {
-    let flag = false;
-    let prod = getProdByInv(id);
-    for (item of basket) {
-        if (item.inv === prod.inv) {
-            item.count++;
-            flag = true;
+
+const basket = {
+    countBasket: function() {
+        let cnt = 0;
+        for (unit of Object.keys(this)) {
+            console.log(Object.keys(basket[unit]));
+            if (unit.count) {
+                cnt += unit.count;
+            }
+        }
+        return cnt;
+    },
+    sumCreateBasket: function() {
+        let sum = 0;
+        for (price of Object.keys(this)) {
+            if (price.price) {
+                sum += price.price;
+            }
+        }
+        return sum;
+    },
+    addInBasket: function(num) {
+        num = parseInt(num);
+        for (item of Object.keys(this)) {
+            if (item.inv === num) {
+                item.count++;
+            } else {
+                let curProd = getProdByInv(num);
+                let tmp = new Product(curProd.inv, curProd.name, curProd.price, 1);
+                let n = this.countBasket();
+                console.log(this.countBasket());
+                basket[n] = tmp;
+            }
         }
     }
-    if (!flag) {
-        prodObj = new Product (prod.inv, prod.name, prod.price, 1);
-        basket.push(prodObj);
-        flag = true;
-    }
-    return flag;
-}
-
-const sumBasket = function(arr) {
-    // let sum = 0;
-    // for (let item in arr) {
-    //     sum += (arr[item]['price'] * arr[item]['count']);
-    // }
-    // return sum;
-    return arr.reduce((a,x) => a += parseInt(x.price * x.count), 0);
-}
-const lengthBasket = function(arr) {
-    return arr.reduce((a,x) => a += parseInt(x.count), 0);
-}
-// const countInBasket()
-function realBasket() {
-    return (sumBasket(basket) > 0) ? `В корзине: ${lengthBasket(basket)} товара на сумму ${sumBasket(basket)} рублей` : `Корзина пуста`;
-}
-// str = (basket.sumBasket > 0) ? `В корзине: ${basket.countBasket} товара на сумму ${basket.sumBasket} рублей` : `Корзина пуста`;
-
+};
+// const sumBasket = function(arr) {
+//     return arr.reduce((a,x) => a += parseInt(x.price), 0);
+// }
+// str = (sumBasket(basket) > 0) ? `В корзине: ${basket.length} товара на сумму ${sumBasket(basket)} рублей` : `Корзина пуста`;
 const basketBox = document.getElementById('basket');
-let str = realBasket();
+str = (basket.sumBasket > 0) ? `В корзине: ${basket.countBasket} товара на сумму ${basket.sumBasket} рублей` : `Корзина пуста`;
 basketBox.innerHTML = str;
 
 /*
@@ -157,12 +162,7 @@ const spEv = document.getElementsByClassName('products-items__btn');
 for (let el of spEv) {
     el.addEventListener('click', function(el) {
         const id = el.target.id;
-        if (pushInBasket(id)) {
-            let str = realBasket();
-            basketBox.innerHTML = str;
-            console.log(basket);
-            console.log(basket.length);
-            console.log(sumBasket(basket));
-        }
+        basket.addInBasket(id);
+        console.log(basket);
     })
 }
