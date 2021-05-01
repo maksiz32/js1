@@ -3,6 +3,25 @@
     font-size: large;
     font-weight: 600;
 }
+
+//start
+.gameWrapper {
+    margin: 0 auto;
+    border: 3px solid black;
+    width: 378px;
+    height: 378px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+}
+.tile {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+}
+//end
 .main {
     max-width: 1024px;
     margin: 0 auto;

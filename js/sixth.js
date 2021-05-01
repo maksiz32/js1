@@ -1,83 +1,6 @@
-function init() {
-    //Вызов функции
-}
-window.onload = init;
-
 /*
-1. Создать функцию, генерирующую шахматную доску. При этом можно использовать любые html-теги по своему желанию. Доска должна быть разлинована соответствующим образом, т.е. чередовать черные и белые ячейки. Строки должны нумероваться числами от 1 до 8, столбцы – латинскими буквами A, B, C, D, E, F, G, H.
-*/
-(function() {
-    const fig = function (i, j) {
-        switch (true) {
-                case ((i === 1) && ((j == 1) || (j === 8))):
-                    return '&#9814;';
-                case ((i === 1) && ((j == 2) || (j === 7))):
-                    return '&#9816;';
-                case ((i === 1) && ((j == 3) || (j === 6))):
-                    return '&#9815;';
-                case (i === 2):
-                    return '&#9817;';
-                case (i === 1 && j === 4):
-                    return '&#9813;';
-                case (i === 1 && j === 5):
-                    return '&#9812;';
-                default:
-                    return '';
-            }
-    };
-    const arrChes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    const box = document.getElementById('tableBox');
-    let str = '<table class="mytable" id="myTable">';
-    for (i = 0; i < 9; i++) {
-        str += `<tr>`;
-        for (j = 0; j < 9; j++) {        
-
-            black = '';
-            if (j === 0 && i !== 0) {
-                str += `<td>${i}</td>`;
-            } else if (i === 0 && j !== 0) {
-                str += `<th>${arrChes[j - 1]}</th>`;
-            } else if (i !== 0 && j !== 0) {
-                ((i % 2 !== 0 && j % 2 !== 0) || (i % 2 === 0 && j % 2 === 0)) ? black = 'blackarea' : true;
-                str += `<td class="tblCell ${black}">${fig(i, j)}</td>`;
-            } else {
-                str += `<td></td>`;
-            }
-        }
-        str += `</tr>`;
-    }
-    str += `</table>`;
-    box.innerHTML = str;
-    box.classList.add('tablebox');    
-})();
-
-//#B
-const gameState = {
-    tiles: [
-        ['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','',''],['','','','','','','','','']
-    ]
-};
-function drawGameboard() {
-    var gameDiv = document.getElementById('gameWrapper');
-    console.log(gameDiv);
-  
-    // gameState.tiles.forEach((row, i) => {
-    gameState.tiles.forEach(function(row, i) {
-      row.forEach(function(tile, j) {
-        var t = document.createElement('div');
-        t.classList.add('tile');
-        t.setAttribute('id', `${i}${j}`)
-        gameDiv.appendChild(t);
-      })
-    })
-  }
-    drawGameboard();
-    // drawGame()
-    tiles = document.getElementsByClassName('tile');
-/*
-2. Сделать генерацию корзины динамической: верстка корзины не должна находиться в HTML-структуре. Там должен быть только div, в который будет вставляться корзина, сгенерированная на базе JS:
-Пустая корзина должна выводить строку «Корзина пуста»;
-Наполненная должна выводить «В корзине: n товаров на сумму m рублей».
+1 Добавлять в объект корзины выбранные товары по клику на кнопке «Купить» без перезагрузки страницы;
+Привязать к событию покупки товара пересчет корзины и обновление ее внешнего вида.
 */
 class Product {
     constructor(inv, name, price, count = 0) {
@@ -185,3 +108,8 @@ for (let el of spEv) {
         }
     })
 }
+
+
+/*
+2 * У товара может быть несколько изображений. Нужно менять картинку при нажатии на картинку
+*/
