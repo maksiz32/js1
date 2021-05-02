@@ -1,29 +1,3 @@
-.gameWrapper {
-  margin: 0 auto;
-  border: 3px solid black;
-  width: 378px;
-  height: 378px;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[9];
-      grid-template-columns: repeat(9, 1fr);
-}
-
-.tile {
-  border: 1px solid black;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 40px;
-  height: 40px;
-}
-
 .main {
   max-width: 1024px;
   margin: 0 auto;
@@ -32,20 +6,6 @@
 .blackarea {
   background-color: #000;
   color: #fff;
-}
-
-.first::before {
-  content: '#1';
-  margin: 20px;
-  font-size: large;
-  font-weight: 600;
-}
-
-.second::before {
-  content: '#2, #3';
-  margin: 20px;
-  font-size: large;
-  font-weight: 600;
 }
 
 .tablebox {
@@ -121,6 +81,12 @@ td, th {
           flex-direction: column;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.products-items__pic {
+  max-width: 100px;
+  margin: 0 auto 10px auto;
+  cursor: pointer;
 }
 
 .products-items__btn {
