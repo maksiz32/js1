@@ -4,6 +4,16 @@
     font-weight: 600;
 }
 
+@mixin hoverBasketOperation {
+    cursor: pointer;
+    background-color: rgb(56, 194, 68);
+}
+
+@mixin activeBasketOperation {
+    background-color: rgb(50, 83, 59);
+    font-weight: 900;
+}
+
 //start
 // .gameWrapper {
 //     margin: 0 auto;
@@ -55,7 +65,6 @@ td, th {
     border: 1px solid gray;
     width: 47px;
     height: 47px;
-    box-sizing: border-box;
     font-size: 1.8em;
     text-align: center;
     box-sizing: border-box;
@@ -67,8 +76,15 @@ td, th {
         z-index: 1;
     }
 }
+.hide {
+    display: none;
+}
+.red-border {
+    border: 1px solid red;
+    box-shadow: 0 0 5px red;
+}
 .basket {
-    max-width: 200px;
+    max-width: 500px;
     text-align: center;
     border: 1px solid gray;
     border-radius: 10px;
@@ -76,7 +92,76 @@ td, th {
     margin: 50px;
     background-color: lavender;
     margin: 0 auto;
+
+    &-main {
+        position: relative;
+    }
+
+    &-sections {
+        background-color: cadetblue;
+        border-radius: 40px;
+        overflow-x: clip;
+
+        & input {
+            width: 85%;
+            margin: 10px auto;
+        }
+
+        & > span {
+            display: block;
+            background-color: rgba($color: #2c2c2c, $alpha: 0.5);
+            color: #fff;
+
+            &:hover {
+                cursor: pointer;
+                font-weight: 700;
+                text-decoration: underline;
+                background-color: rgba($color: #1a1818, $alpha: 0.5);
+            }
+        }
+    }
+
+    &-prod {
+        padding: 0 0 8px 0;
     
+        &-operation {
+            background-color: green;
+            display: inline-flex;
+            padding: 3px;
+            justify-content: center;
+            margin: 0;
+            color: #fff;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+            &__minus {
+                border-radius: 10px 0 0 10px;
+                border-right: 1px solid #f8f8ecda;
+                min-width: 30px;
+
+                &:hover {
+                    @include hoverBasketOperation();
+                }
+
+                &:active {
+                    @include activeBasketOperation()
+                }
+            }
+
+            &__plus {
+                border-radius: 0 10px 10px 0;
+                border-left: 1px solid #f8f8ecda;
+                min-width: 30px;
+
+                &:hover {
+                    @include hoverBasketOperation();
+                }
+
+                &:active {
+                    @include activeBasketOperation()
+                }
+            }
+        }
+    }
 }
 .products {
     display: flex;
@@ -97,7 +182,10 @@ td, th {
         &__pic {
             max-width: 100px;
             margin: 0 auto 10px auto;
-            cursor: pointer;
+            
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         &__btn {

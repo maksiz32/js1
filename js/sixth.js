@@ -77,6 +77,17 @@ const basket = {
         return flag;
     },
 
+    spliceFromBasket: function(id) {
+        let prod = products.getProdByInv(id);
+        for (item of this.products) {
+            if (item.inv === prod.inv && item.count > 1) {
+                item.count--;
+            } else if (item.inv === prod.inv && item.count === 1) {
+                this.products.splice(this.products.indexOf(prod), 1);
+            }
+        }
+    },
+
     sumBasket: function() {
         return this.products.reduce((a,x) => a += parseInt(x.price * x.count), 0);
     },
@@ -86,7 +97,120 @@ const basket = {
     },
 
     realBasket: function() {
-        return (basket.sumBasket() > 0) ? `В корзине: ${basket.lengthBasket()} товара на сумму ${basket.sumBasket()} рублей` : `Корзина пуста`;
+        return (basket.sumBasket() > 0) ? `В корзине:<p> ${basket.lengthBasket()} товара на сумму ${basket.sumBasket()} рублей</p>` : `Корзина пуста`;
+    },
+
+    getStructureBasket: function() {
+        const prods = this.products;
+        const basketMain = document.createElement('div');
+        basketMain.classList.add('basket-main');
+        basketMain.setAttribute('id', 'basket-main');
+        basketBox.appendChild(basketMain);
+        if (prods.length > 0){
+            const prodB = document.createElement('div');
+            prodB.classList.add('basket-sections');
+            prodB.setAttribute('id', 'basket-sections');
+            prodB.innerHTML = '<h3>Состав корзины</h3>';
+            prods.forEach((items) => {
+                const prodBask = document.createElement('div');
+                prodBask.classList.add('basket-prod');
+                prodBask.setAttribute('id', 'basket-prod');
+                const strSum = `<span>${items.count * items.price} рублей</span>`;
+                const strMinus = `<span onclick="basket.delProdInBasket(${items.inv})" class="basket-prod-operation basket-prod-operation__minus"> -</span>`;
+                const strCount = `<span class="basket-prod-operation"> ${items.count} шт </span>`;
+                const strPlus = `<span onclick="basket.addProdInBasket(${items.inv})" class="basket-prod-operation basket-prod-operation__plus">+ </span>`;
+                prodBask.innerHTML = `${items.name}: ${strSum}  ${strMinus}${strCount}${strPlus}`;
+                prodB.appendChild(prodBask);
+            })
+            basketMain.prepend(prodB);
+            const nextN = document.createElement('span');
+            nextN.setAttribute('id', 'nextN');
+            nextN.setAttribute('onclick', 'basket.nextSection(1)');
+            nextN.innerText = 'Далее...';
+            prodB.append(nextN);
+        }
+    },
+
+    nextSection: function(num) {
+        switch(num) {
+            case 1:
+                const basketSection = document.getElementById('basket-sections');
+                const basketMain = document.getElementById('basket-main');
+                basketSection.classList.add('hide');
+                const addr = document.createElement('div');
+                addr.classList.add('basket-sections');
+                addr.setAttribute('id', 'basket-addr');
+                const title = document.createElement('h3');
+                title.innerText = 'Адрес доставки';
+                inputLabel = document.createElement('label');
+                inputLabel.setAttribute('for', 'address');
+                inputAddr = document.createElement('input');
+                inputAddr.setAttribute('placeholder', 'Введите адрес');
+                inputAddr.setAttribute('name', 'address');
+                inputAddr.setAttribute('id', 'address');
+                inputAddr.setAttribute('type', 'text');
+
+                basketMain.appendChild(addr);
+                addr.appendChild(title);
+                addr.appendChild(inputLabel);
+                addr.appendChild(inputAddr);
+                
+                const nextN = document.createElement('span');
+                nextN.setAttribute('id', 'nextN');
+                nextN.setAttribute('onclick', 'basket.nextSection(2)');
+                nextN.innerText = 'Далее...';
+                addr.append(nextN);
+                break;
+            case 2:
+                const addrIn = document.getElementById('address');
+                if (addrIn.value.length > 0) {
+                    addrIn.parentElement.classList.add('hide');
+                    
+                const addr = document.createElement('div');
+                addr.classList.add('basket-sections');
+                addr.setAttribute('id', 'basket-addr');
+                const title = document.createElement('h3');
+                title.innerText = 'Комментарий';
+                inputLabel = document.createElement('label');
+                inputLabel.setAttribute('for', 'comment');
+                inputAddr = document.createElement('input');
+                inputAddr.setAttribute('placeholder', 'Оставьте комментарий');
+                inputAddr.setAttribute('name', 'comment');
+                inputAddr.setAttribute('id', 'comment');
+                inputAddr.setAttribute('type', 'text');
+
+                const basketMain = document.getElementById('basket-main');
+                basketMain.appendChild(addr);
+                addr.appendChild(title);
+                addr.appendChild(inputLabel);
+                addr.appendChild(inputAddr);
+                
+                const nextN = document.createElement('span');
+                nextN.setAttribute('id', 'nextN');
+                nextN.setAttribute('onclick', 'basket.nextSection(3)');
+                nextN.innerText = 'Далее...';
+                addr.append(nextN);
+                break;
+                } else {
+                    addrIn.classList.add('red-border');
+                    break;
+                }
+        }
+    },
+
+    addProdInBasket: function(id) {
+        if (basket.pushInBasket(id)) {
+            let str = basket.realBasket();
+            basketBox.innerHTML = str;
+            basket.getStructureBasket();
+        }
+    },
+
+    delProdInBasket: function(id) {
+        this.spliceFromBasket(id);
+        let str = basket.realBasket();
+        basketBox.innerHTML = str;
+        basket.getStructureBasket();
     }
 };
 
@@ -94,11 +218,13 @@ const basketBox = document.getElementById('basket');
 let str = basket.realBasket();
 basketBox.innerHTML = str;
 
+
+
 const divProducts = document.createElement('div');
 divProducts.classList.add('products');
 basketBox.after(divProducts);
 
-for (let item of products) {
+products.forEach(item => {
     const div = document.createElement('div');
     div.classList.add('products-items');
     div.setAttribute('id', item.inv);
@@ -131,16 +257,12 @@ for (let item of products) {
     div.appendChild(span2);
     div.appendChild(span3);
     div.appendChild(span4);
-}
+});
 
 const spEv = document.getElementsByClassName('products-items__btn');
 for (let el of spEv) {
     el.addEventListener('click', function(el) {
-        const id = el.target.id;
-        if (basket.pushInBasket(id)) {
-            let str = basket.realBasket();
-            basketBox.innerHTML = str;
-        }
+        basket.addProdInBasket(el.target.id);
     })
 }
 
@@ -154,5 +276,11 @@ for (let el of imgEv) {
 }
 
 /*
-2 * У товара может быть несколько изображений. Нужно менять картинку при нажатии на картинку
+1.	Реализовать страницу корзины:
+a.	Добавить возможность не только смотреть состав корзины, но и редактировать его, обновляя общую стоимость или выводя сообщение «Корзина пуста».
+2.	На странице корзины:
+a.	Сделать отдельные блоки «Состав корзины», «Адрес доставки», «Комментарий»;
+b.	Сделать эти поля сворачиваемыми;
+c.	Заполнять поля по очереди, то есть давать посмотреть состав корзины, внизу которого есть кнопка «Далее». Если нажать ее, сворачивается «Состав корзины» и открывается «Адрес доставки» и так далее.
+3.	* Убрать границы поля: пересекая их, змейка должна появляться с противоположной стороны.
 */

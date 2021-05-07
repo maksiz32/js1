@@ -27,11 +27,10 @@ td, th {
   border: 1px solid gray;
   width: 47px;
   height: 47px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   font-size: 1.8em;
   text-align: center;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .tblCell:hover {
@@ -42,8 +41,18 @@ td, th {
   z-index: 1;
 }
 
+.hide {
+  display: none;
+}
+
+.red-border {
+  border: 1px solid red;
+  -webkit-box-shadow: 0 0 5px red;
+          box-shadow: 0 0 5px red;
+}
+
 .basket {
-  max-width: 200px;
+  max-width: 500px;
   text-align: center;
   border: 1px solid gray;
   border-radius: 10px;
@@ -51,6 +60,84 @@ td, th {
   margin: 50px;
   background-color: lavender;
   margin: 0 auto;
+}
+
+.basket-main {
+  position: relative;
+}
+
+.basket-sections {
+  background-color: cadetblue;
+  border-radius: 40px;
+  overflow-x: clip;
+}
+
+.basket-sections input {
+  width: 85%;
+  margin: 10px auto;
+}
+
+.basket-sections > span {
+  display: block;
+  background-color: rgba(44, 44, 44, 0.5);
+  color: #fff;
+}
+
+.basket-sections > span:hover {
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  background-color: rgba(26, 24, 24, 0.5);
+}
+
+.basket-prod {
+  padding: 0 0 8px 0;
+}
+
+.basket-prod-operation {
+  background-color: green;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  padding: 3px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  color: #fff;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.basket-prod-operation__minus {
+  border-radius: 10px 0 0 10px;
+  border-right: 1px solid #f8f8ecda;
+  min-width: 30px;
+}
+
+.basket-prod-operation__minus:hover {
+  cursor: pointer;
+  background-color: #38c244;
+}
+
+.basket-prod-operation__minus:active {
+  background-color: #32533b;
+  font-weight: 900;
+}
+
+.basket-prod-operation__plus {
+  border-radius: 0 10px 10px 0;
+  border-left: 1px solid #f8f8ecda;
+  min-width: 30px;
+}
+
+.basket-prod-operation__plus:hover {
+  cursor: pointer;
+  background-color: #38c244;
+}
+
+.basket-prod-operation__plus:active {
+  background-color: #32533b;
+  font-weight: 900;
 }
 
 .products {
@@ -86,6 +173,9 @@ td, th {
 .products-items__pic {
   max-width: 100px;
   margin: 0 auto 10px auto;
+}
+
+.products-items__pic:hover {
   cursor: pointer;
 }
 
