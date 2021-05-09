@@ -1,7 +1,4 @@
-/*
-1 Добавлять в объект корзины выбранные товары по клику на кнопке «Купить» без перезагрузки страницы;
-Привязать к событию покупки товара пересчет корзины и обновление ее внешнего вида.
-*/
+
 class Product {
     static getNextInv() {
         return parseInt(Product.nextInv++);
@@ -17,9 +14,12 @@ class Product {
         if (!paths.isArray) {
             this.images.push(paths);
         } else {
-            for (path of paths) {
-                this.images.push(path);
-            }
+            paths.forEach(el => {
+                this.images.push(el);
+            })
+            // for (path of paths) {
+            //     this.images.push(path);
+            // }
         }
     }
     getNextImg(path) {
@@ -33,16 +33,30 @@ Product.nextInv = 1234;
 const a = new Product ('Mars', 200, 3);
 const b = new Product ('Snikers', 400, 4);
 const c = new Product ('Bounty', 800, 5);
-a.addImmage('601d68aa11bf4.jpg');
-a.addImmage('601d68ac8c97e.jpg');
-a.addImmage('601d68af06517.jpg');
+aImgs = ['601d68aa11bf4.jpg', '601d68ac8c97e.jpg', '601d68af06517.jpg'];
+bImgs = ['601d6a67be1ae.jpg', '6021a8040f304.jpg', '6021a806382e0.jpg'];
+cImgs = ['6021a807a84ae.jpg', '6021a808a938e.jpg'];
 
-b.addImmage('601d6a67be1ae.jpg');
-b.addImmage('6021a8040f304.jpg');
-b.addImmage('6021a806382e0.jpg');
+aImgs.forEach(el => {
+    a.addImmage(el);
+})
+bImgs.forEach(el => {
+    b.addImmage(el);
+})
+cImgs.forEach(el => {
+    c.addImmage(el);
+})
 
-c.addImmage('6021a807a84ae.jpg');
-c.addImmage('6021a808a938e.jpg');
+// a.addImmage('601d68aa11bf4.jpg');
+// a.addImmage('601d68ac8c97e.jpg');
+// a.addImmage('601d68af06517.jpg');
+
+// b.addImmage('601d6a67be1ae.jpg');
+// b.addImmage('6021a8040f304.jpg');
+// b.addImmage('6021a806382e0.jpg');
+
+// c.addImmage('6021a807a84ae.jpg');
+// c.addImmage('6021a808a938e.jpg');
 
 const products = [a,b,c];
 
@@ -62,12 +76,18 @@ const basket = {
     pushInBasket: function(id) {
         let flag = false;
         let prod = products.getProdByInv(id);
-        for (item of this.products) {
-            if (item.inv === prod.inv) {
-                item.count++;
+        this.products.forEach(el => {
+            if (el.inv === prod.inv) {
+                el.count++;
                 flag = true;
             }
-        }
+        })
+        // for (item of this.products) {
+        //     if (item.inv === prod.inv) {
+        //         item.count++;
+        //         flag = true;
+        //     }
+        // }
         if (!flag) {
             prodObj = prod;
             prodObj.count = 1;
@@ -79,13 +99,20 @@ const basket = {
 
     spliceFromBasket: function(id) {
         let prod = products.getProdByInv(id);
-        for (item of this.products) {
-            if (item.inv === prod.inv && item.count > 1) {
-                item.count--;
-            } else if (item.inv === prod.inv && item.count === 1) {
+        this.products.forEach(el => {
+            if (el.inv === prod.inv && el.count > 1) {
+                el.count--;
+            } else if (el.inv === prod.inv && el.count === 1) {
                 this.products.splice(this.products.indexOf(prod), 1);
             }
-        }
+        })
+        // for (item of this.products) {
+        //     if (item.inv === prod.inv && item.count > 1) {
+        //         item.count--;
+        //     } else if (item.inv === prod.inv && item.count === 1) {
+        //         this.products.splice(this.products.indexOf(prod), 1);
+        //     }
+        // }
     },
 
     sumBasket: function() {
@@ -96,7 +123,7 @@ const basket = {
         return this.products.reduce((a,x) => a += parseInt(x.count), 0);
     },
 
-    realBasket: function() {
+    updateBasket: function() {
         return (basket.sumBasket() > 0) ? `В корзине:<p> ${basket.lengthBasket()} товара на сумму ${basket.sumBasket()} рублей</p>` : `Корзина пуста`;
     },
 
@@ -200,7 +227,7 @@ const basket = {
 
     addProdInBasket: function(id) {
         if (basket.pushInBasket(id)) {
-            let str = basket.realBasket();
+            let str = basket.updateBasket();
             basketBox.innerHTML = str;
             basket.getStructureBasket();
         }
@@ -208,17 +235,15 @@ const basket = {
 
     delProdInBasket: function(id) {
         this.spliceFromBasket(id);
-        let str = basket.realBasket();
+        let str = basket.updateBasket();
         basketBox.innerHTML = str;
         basket.getStructureBasket();
     }
 };
 
 const basketBox = document.getElementById('basket');
-let str = basket.realBasket();
+let str = basket.updateBasket();
 basketBox.innerHTML = str;
-
-
 
 const divProducts = document.createElement('div');
 divProducts.classList.add('products');
@@ -275,12 +300,3 @@ for (let el of imgEv) {
     })
 }
 
-/*
-1.	Реализовать страницу корзины:
-a.	Добавить возможность не только смотреть состав корзины, но и редактировать его, обновляя общую стоимость или выводя сообщение «Корзина пуста».
-2.	На странице корзины:
-a.	Сделать отдельные блоки «Состав корзины», «Адрес доставки», «Комментарий»;
-b.	Сделать эти поля сворачиваемыми;
-c.	Заполнять поля по очереди, то есть давать посмотреть состав корзины, внизу которого есть кнопка «Далее». Если нажать ее, сворачивается «Состав корзины» и открывается «Адрес доставки» и так далее.
-3.	* Убрать границы поля: пересекая их, змейка должна появляться с противоположной стороны.
-*/
