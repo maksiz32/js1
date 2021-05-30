@@ -97,10 +97,23 @@ td, th {
         position: relative;
     }
 
+    &-sectHide {
+        position: absolute;
+        width: 100%;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.6s;
+        transform: translate(0, -100%);
+    }
+
     &-sections {
         background-color: cadetblue;
         border-radius: 40px;
         overflow-x: clip;
+        visibility: visible;
+        opacity: 1;
+        animation-duration: 1s;
+        animation-name: slidein;
 
         & input {
             width: 85%;
@@ -162,6 +175,18 @@ td, th {
             }
         }
     }
+}
+
+@keyframes slidein {
+  from {
+    transform: translate(100% 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0 0);
+    opacity: 1;
+  }
 }
 .products {
     display: flex;

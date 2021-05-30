@@ -163,8 +163,10 @@ const basket = {
             case 1:
                 const basketSection = document.getElementById('basket-sections');
                 const basketMain = document.getElementById('basket-main');
-                basketSection.classList.add('hide');
+                basketSection.classList.remove('basket-sections');
+                basketSection.classList.add('basket-sectHide');
                 const addr = document.createElement('div');
+                addr.setAttribute('id', 'basket-sections');
                 addr.classList.add('basket-sections');
                 addr.setAttribute('id', 'basket-addr');
                 const title = document.createElement('h3');
@@ -193,31 +195,33 @@ const basket = {
                 if (addrIn.value.length > 0) {
                     addrIn.parentElement.classList.add('hide');
                     
-                const addr = document.createElement('div');
-                addr.classList.add('basket-sections');
-                addr.setAttribute('id', 'basket-addr');
-                const title = document.createElement('h3');
-                title.innerText = 'Комментарий';
-                inputLabel = document.createElement('label');
-                inputLabel.setAttribute('for', 'comment');
-                inputAddr = document.createElement('input');
-                inputAddr.setAttribute('placeholder', 'Оставьте комментарий');
-                inputAddr.setAttribute('name', 'comment');
-                inputAddr.setAttribute('id', 'comment');
-                inputAddr.setAttribute('type', 'text');
+                    (document.getElementById('basket-sections')).classList.remove('basket-sections');
+                    (document.getElementById('basket-sections')).classList.add('basket-sectHide');
+                    const addr = document.createElement('div');
+                    addr.classList.add('basket-sections');
+                    addr.setAttribute('id', 'basket-addr');
+                    const title = document.createElement('h3');
+                    title.innerText = 'Комментарий';
+                    inputLabel = document.createElement('label');
+                    inputLabel.setAttribute('for', 'comment');
+                    inputAddr = document.createElement('input');
+                    inputAddr.setAttribute('placeholder', 'Оставьте комментарий');
+                    inputAddr.setAttribute('name', 'comment');
+                    inputAddr.setAttribute('id', 'comment');
+                    inputAddr.setAttribute('type', 'text');
 
-                const basketMain = document.getElementById('basket-main');
-                basketMain.appendChild(addr);
-                addr.appendChild(title);
-                addr.appendChild(inputLabel);
-                addr.appendChild(inputAddr);
-                
-                const nextN = document.createElement('span');
-                nextN.setAttribute('id', 'nextN');
-                nextN.setAttribute('onclick', 'basket.nextSection(3)');
-                nextN.innerText = 'Далее...';
-                addr.append(nextN);
-                break;
+                    const basketMain = document.getElementById('basket-main');
+                    basketMain.appendChild(addr);
+                    addr.appendChild(title);
+                    addr.appendChild(inputLabel);
+                    addr.appendChild(inputAddr);
+                    
+                    const nextN = document.createElement('span');
+                    nextN.setAttribute('id', 'nextN');
+                    nextN.setAttribute('onclick', 'basket.nextSection(3)');
+                    nextN.innerText = 'Далее...';
+                    addr.append(nextN);
+                    break;
                 } else {
                     addrIn.classList.add('red-border');
                     break;
